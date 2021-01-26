@@ -90,3 +90,36 @@ fils(Y, X) :-
 fille(Y, X) :-
   parent_de(X, Y),
   femme(Y).
+
+% Y1 et Y2 ont mêmes parents - (Corriger !)
+frere_ou_soeur(Y1, Y2) :-
+  parent_de(X, Y1),
+  parent_de(X, Y2).
+
+% À definir à partir de frère_ou_soeur et de homme - (Corriger !)
+frere(Z, Y) :-
+  frere_ou_soeur(Z, Y),
+  homme(Z).
+
+% À definir à partir de frère_ou_soeur et de femme - (Corriger !)
+soeur(Z, Y) :-
+  frere_ou_soeur(Y, Z),
+  femme(Z).
+
+% Grand-parent est le parent d'un parent de W
+grand_parent(W, Y) :-
+  parent_de(X, Y),
+  parent_de(W, X).
+
+% X est le frère d'un parent de Y - (Corriger !)
+oncle(X, Y) :-
+  parent_de(X2, Y),
+  frere(X, X2).
+
+% X est la soeur d'un parent de Y - (Corriger !)
+tante(X, Y) :-
+  parent_de(X2, Y),
+  soeur(X, X2).
+
+
+
