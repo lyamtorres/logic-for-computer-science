@@ -23,7 +23,7 @@ pere(jean, popeye).
 pere(gaston, david).
 pere(gaston, virginie).
 
-pere(michel, charlie).
+pere(michel, charly).
 pere(michel, julie).
 
 pere(popeye, mimosa).
@@ -58,26 +58,26 @@ mere(julie, franc).
 
 % Question 2
 
-% Toute personne ayant un époux ou un épouse est marié
-marie(X) :-
+% Toute personne ayant un époux ou un épouse est marié | OK
+est_marie(X) :-
   epoux(X, Y);
   epouse(X, Y).
 
-% Toute personne mariée est heureuse
+% Toute personne mariée est heureuse | OK
 heureux(X) :-
-  marie(X).
+  est_marie(X).
 
-% Toute personne père ou mère de quelqu'un est un parent
-parent(X) :-
-    pere(X, Y);
-    mere(X, Y).
+% Toute personne père ou mère de quelqu'un est un parent | À revoir
+parent(P) :-
+  pere(P, E);
+  mere(P, E).
 
-% X est soit père de Y, soit mère de Y
+% X est soit père de Y, soit mère de Y | OK
 parent_de(X, Y) :-
   pere(X, Y);
   mere(X, Y).
 
-% Réciproquement à definir à partir de parent(,)
+% Réciproquement à definir à partir de parent(,) | OK
 enfant_de(Y, X) :-
   parent_de(X, Y).
 
@@ -91,17 +91,17 @@ fille(Y, X) :-
   parent_de(X, Y),
   femme(Y).
 
-% Y1 et Y2 ont mêmes parents - (Corriger !)
+% Y1 et Y2 ont mêmes parents | À revoir
 frere_ou_soeur(Y1, Y2) :-
   parent_de(X, Y1),
   parent_de(X, Y2).
 
-% À definir à partir de frère_ou_soeur et de homme - (Corriger !)
+% À definir à partir de frère_ou_soeur et de homme | À revoir
 frere(Z, Y) :-
   frere_ou_soeur(Z, Y),
   homme(Z).
 
-% À definir à partir de frère_ou_soeur et de femme - (Corriger !)
+% À definir à partir de frère_ou_soeur et de femme | À revoir
 soeur(Z, Y) :-
   frere_ou_soeur(Y, Z),
   femme(Z).
@@ -111,12 +111,12 @@ grand_parent(W, Y) :-
   parent_de(X, Y),
   parent_de(W, X).
 
-% X est le frère d'un parent de Y - (Corriger !)
+% X est le frère d'un parent de Y - (À corriger !)
 oncle(X, Y) :-
   parent_de(X2, Y),
   frere(X, X2).
 
-% X est la soeur d'un parent de Y - (Corriger !)
+% X est la soeur d'un parent de Y - (À corriger !)
 tante(X, Y) :-
   parent_de(X2, Y),
   soeur(X, X2).
