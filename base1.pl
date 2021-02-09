@@ -111,15 +111,16 @@ grand_parent(W, Y) :-
   parent_de(X, Y),
   parent_de(W, X).
 
-% X est le frère d'un parent de Y - (À corriger !)
+% X est le frère d'un parent de Y | À revoir
 oncle(X, Y) :-
   parent_de(X2, Y),
   frere(X, X2).
 
-% X est la soeur d'un parent de Y - (À corriger !)
+% X est la soeur d'un parent de Y | À revoir
 tante(X, Y) :-
   parent_de(X2, Y),
   soeur(X, X2).
 
-
-
+ancetre(A,E) :- 
+  parent(A,M), 
+  ancetre(M,E).

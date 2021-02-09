@@ -1,1 +1,1 @@
-# logic-for-computer-science
+# Logic for Computer Science
