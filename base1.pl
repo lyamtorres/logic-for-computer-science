@@ -1,3 +1,5 @@
+% Commande pour compiler : swipl -s base1.pl
+
 % Question 1
 
 homme(jean).
@@ -67,60 +69,62 @@ est_marie(X) :-
 heureux(X) :-
   est_marie(X).
 
-% Toute personne père ou mère de quelqu'un est un parent | À revoir
+% Toute personne père ou mère de quelqu'un est un parent | Corriger rédondances
 parent(P) :-
   pere(P, E);
   mere(P, E).
 
-% X est soit père de Y, soit mère de Y | OK
-parent_de(X, Y) :-
-  pere(X, Y);
-  mere(X, Y).
+% X est soit père de E, soit mère de E | OK
+parent_de(P, E) :-
+  pere(P, E);
+  mere(P, E).
 
 % Réciproquement à definir à partir de parent(,) | OK
-enfant_de(Y, X) :-
-  parent_de(X, Y).
+enfant_de(E, P) :-
+  parent_de(P, E).
 
-% À definir à partir de parent et de homme
-fils(Y, X) :-
-  parent_de(X, Y),
-  homme(Y).
+% À definir à partir de parent et de homme | OK
+fils(E, P) :-
+  parent_de(P, E),
+  homme(E).
 
-% À definir à partir de parent et de femme
-fille(Y, X) :-
-  parent_de(X, Y),
-  femme(Y).
+% À definir à partir de parent et de femme | OK
+fille(E, P) :-
+  parent_de(P, E),
+  femme(E).
 
-% Y1 et Y2 ont mêmes parents | À revoir
-frere_ou_soeur(Y1, Y2) :-
-  parent_de(X, Y1),
-  parent_de(X, Y2).
+% E1 et E2 ont mêmes parents | OK
+frere_ou_soeur(E1, E2) :-
+  parent_de(P, E1),
+  parent_de(P, E2),
+  E1 \= E2.
 
-% À definir à partir de frère_ou_soeur et de homme | À revoir
-frere(Z, Y) :-
-  frere_ou_soeur(Z, Y),
-  homme(Z).
+% À definir à partir de frère_ou_soeur et de homme | OK
+frere(G, E) :-
+  frere_ou_soeur(G, E),
+  homme(G).
 
-% À definir à partir de frère_ou_soeur et de femme | À revoir
-soeur(Z, Y) :-
-  frere_ou_soeur(Y, Z),
-  femme(Z).
+% À definir à partir de frère_ou_soeur et de femme | OK
+soeur(F, E) :-
+  frere_ou_soeur(F, E),
+  femme(F).
 
-% Grand-parent est le parent d'un parent de W
-grand_parent(W, Y) :-
-  parent_de(X, Y),
-  parent_de(W, X).
+% Grand-parent est le parent d'un parent de E | OK
+grand_parent(GP, E) :-
+  parent_de(P, E),
+  parent_de(GP, X).
 
-% X est le frère d'un parent de Y | À revoir
-oncle(X, Y) :-
-  parent_de(X2, Y),
-  frere(X, X2).
+% O est le frère d'un parent de E | OK
+oncle(O, E) :-
+  parent_de(P, E),
+  frere(O, P).
 
-% X est la soeur d'un parent de Y | À revoir
-tante(X, Y) :-
-  parent_de(X2, Y),
-  soeur(X, X2).
+% X est la soeur d'un parent de E | OK
+tante(T, E) :-
+  parent_de(P, E),
+  soeur(T, P).
 
-ancetre(A,E) :- 
-  parent(A,M), 
-  ancetre(M,E).
+% A est un parent de E, ou un grand-parent, ou un arrière-grand-parent | À terminer !
+ancetre(A, E) :- 
+  parent(A, M), 
+  ancetre(M, E).
